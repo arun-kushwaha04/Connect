@@ -71,15 +71,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/registration_image"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edit_text_email_register"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            app:boxBackgroundMode="outline"
+            app:endIconMode="clear_text"
+            app:helperText="Enter A Valid Email Address"
+            app:layout_constraintEnd_toEndOf="@+id/edit_text_name_register"
+            app:layout_constraintStart_toStartOf="@+id/edit_text_name_register"
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_name_register"
+            app:startIconDrawable="@drawable/ic_email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_email_text_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:focusableInTouchMode="true"
-                android:scaleType="center"
-                app:srcCompat="@drawable/test" />
-
+                android:layout_height="wrap_content"
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -137,10 +149,11 @@
             app:boxBackgroundMode="outline"
             app:endIconMode="clear_text"
             app:helperText="Enter Your 10 Digit Mobile Number"
-            app:layout_constraintEnd_toEndOf="@+id/edit_text_name_register"
-            app:layout_constraintStart_toStartOf="@+id/edit_text_name_register"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_name_register"
-            app:startIconDrawable="@drawable/ic_mobile">
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_email_register"
+            app:layout_constraintEnd_toEndOf="@+id/edit_text_email_register"
+            app:layout_constraintStart_toStartOf="@+id/edit_text_email_register"
+            app:startIconDrawable="@drawable/ic_mobile"
+            tools:layout_editor_absoluteY="120dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/register_number_text_number"
