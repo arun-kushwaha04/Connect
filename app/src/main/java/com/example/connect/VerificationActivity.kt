@@ -1,9 +1,12 @@
 package com.example.connect
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.example.connect.databinding.ActivityVerificationBinding
 import com.google.firebase.FirebaseException
@@ -18,6 +21,9 @@ import java.util.concurrent.TimeUnit
 
 class VerificationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityVerificationBinding
+    private var storedVerificationId: String? = ""
+    private lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
+    private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVerificationBinding.inflate(layoutInflater);
@@ -26,8 +32,10 @@ class VerificationActivity : AppCompatActivity() {
         val phone = intent.getStringExtra("phone")!!
         binding.phone.text = phone
 
-        val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
+        callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                binding.progressActivity.visibility = View.GONE
+                binding.otpEntered.setText(credential.smsCode);
                 signInWithPhoneAuthCredential(credential)
             }
 
@@ -39,6 +47,24 @@ class VerificationActivity : AppCompatActivity() {
                 } else if (e is FirebaseTooManyRequestsException) {
                     // The SMS quota for the project has been exceeded
                 }
+
+            }
+
+            override fun onCodeSent(
+                verificationId: String,
+                token: PhoneAuthProvider.ForceResendingToken
+            ) {
+                binding.progressActivity.visibility = View.GONE
+                storedVerificationId = verificationId
+                resendToken = token
+                binding.verifyOtp.setOnClickListener(){
+                    val userEnteredVerificationId = binding.otpEntered.text.toString()
+                    val credential = PhoneAuthProvider.getCredential(verificationId, userEnteredVerificationId)
+                    signInWithPhoneAuthCredential(credential)
+                }
+            }
+
+            override fun onCodeAutoRetrievalTimeOut(verificationId: String){
 
             }
 
@@ -54,19 +80,27 @@ class VerificationActivity : AppCompatActivity() {
     }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        binding.verifyOtp.visibility = View.GONE
+        binding.verifyingOtpEntered.visibility=View.VISIBLE
         Firebase.auth.signInWithCredential(credential)
             .addOnCompleteListener(this) {task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     val user = task.result?.user
-                    Toast.makeText(this, "OTP send Successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "OTP Verified Successfully", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this,MainActivity::class.java)
+                    intent.flags= Intent.FLAG_ACTIVITY_CLEAR_TASK or (Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
                 }else {
-                    Toast.makeText(this, "failure", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Wrong Code", Toast.LENGTH_SHORT).show()
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
                         // The verification code entered was invalid
+                        binding.verifyOtp.visibility = View.VISIBLE
+                        binding.verifyingOtpEntered.visibility=View.GONE
                     }
                     // Update UI
                 }
             }
     }
+
 }
