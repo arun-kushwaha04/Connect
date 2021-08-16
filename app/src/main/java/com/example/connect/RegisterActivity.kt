@@ -1,14 +1,21 @@
 package com.example.connect
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import com.example.connect.databinding.ActivityRegisterBinding
 import com.example.connect.databinding.ActivityVerificationBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.FirebaseException
+import com.google.firebase.FirebaseTooManyRequestsException
+import com.google.firebase.auth.*
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import java.util.concurrent.TimeUnit
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding;
@@ -35,11 +42,11 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun registerUsersToFirebase() {
-        val name = binding.editTextNameRegister.toString()
-        val email = binding.editTextEmailRegister.toString()
+        val name = binding.registerUsernameTextView.text.toString()
+        val email = binding.editTextEmailRegister.editText.toString()
         val password = binding.editTextPasswordText.toString()
         val confirmPassword = binding.editTextConfirmPasswordRegister.toString()
-        val phone = binding.editTextNumberRegister.toString()
+        var phone = binding.registerNumberTextNumber.text.toString()
 
         MaterialAlertDialogBuilder(this)
             .setTitle("Phone Verification")
@@ -61,13 +68,15 @@ class RegisterActivity : AppCompatActivity() {
         if(phone.isEmpty() || phone.length!=10){
             Toast.makeText(this, "Enter a valid phone number", Toast.LENGTH_SHORT).show()
         }
-//        if(password.isEmpty()){
-//            Toast.makeText(this,"Enter a Password",Toast.LENGTH_SHORT).show()
-//        }
-//        if(password != confirmPassword){
-//            Toast.makeText(this, "Password and Confirm Password Should Match", Toast.LENGTH_SHORT).show()
-//        }
+        phone = "+91$phone"
+
+        val intent = Intent(this,VerificationActivity::class.java)
+        intent.putExtra("phone",phone);
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or (Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent);
 
 
     }
+
+
 }
