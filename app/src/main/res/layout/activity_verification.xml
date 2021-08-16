@@ -66,13 +66,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="68dp"
             android:hint="Enter OTP"
             android:inputType="number"
             app:boxBackgroundMode="outline"
             app:endIconMode="clear_text"
-            app:layout_constraintBottom_toTopOf="@+id/verifyOtp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.75"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phone">
 
@@ -84,7 +84,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <Button
             android:id="@+id/verifyOtp"
             android:layout_width="wrap_content"
@@ -93,10 +92,27 @@
             android:padding="8dp"
             android:text="Verify Number"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="261dp" />
+            app:layout_constraintTop_toBottomOf="@+id/otp" />
+
+        <Button
+            android:id="@+id/resendOtp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_card_view_background"
+            android:padding="8dp"
+            android:text="Resend OTP"
+            android:visibility="gone"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/otp" />
+
 
         <ProgressBar
             android:id="@+id/verifyingOtpEntered"
@@ -110,7 +126,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/progressActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

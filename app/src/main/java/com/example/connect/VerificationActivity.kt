@@ -2,6 +2,7 @@ package com.example.connect
 
 import android.content.ContentValues
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -32,9 +33,19 @@ class VerificationActivity : AppCompatActivity() {
         val phone = intent.getStringExtra("phone")!!
         binding.phone.text = phone
 
+        sendOtp(phone)
+
+
+    }
+
+    private fun sendOtp(phone : String){
+
         callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
                 binding.progressActivity.visibility = View.GONE
+                binding.otp.visibility = View.VISIBLE
+                binding.verifyOtp.visibility = View.VISIBLE
+                binding.resendOtp.visibility=View.GONE
                 binding.otpEntered.setText(credential.smsCode);
                 signInWithPhoneAuthCredential(credential)
             }
@@ -43,18 +54,16 @@ class VerificationActivity : AppCompatActivity() {
                 Log.w(ContentValues.TAG, "onVerificationFailed", e)
 
                 if (e is FirebaseAuthInvalidCredentialsException) {
-                    // Invalid request
+                    Toast.makeText(this@VerificationActivity, "Invalid Credentials", Toast.LENGTH_SHORT).show()
                 } else if (e is FirebaseTooManyRequestsException) {
                     // The SMS quota for the project has been exceeded
                 }
-
             }
 
             override fun onCodeSent(
                 verificationId: String,
                 token: PhoneAuthProvider.ForceResendingToken
             ) {
-                binding.progressActivity.visibility = View.GONE
                 storedVerificationId = verificationId
                 resendToken = token
                 binding.verifyOtp.setOnClickListener(){
@@ -65,11 +74,22 @@ class VerificationActivity : AppCompatActivity() {
             }
 
             override fun onCodeAutoRetrievalTimeOut(verificationId: String){
-
+                binding.progressActivity.visibility = View.GONE
+                binding.otp.visibility = View.GONE
+                binding.verifyOtp.visibility = View.GONE
+                binding.resendOtp.visibility=View.VISIBLE
+                binding.resendOtp.setOnClickListener(){
+                    val options = PhoneAuthOptions.newBuilder(Firebase.auth)
+                        .setPhoneNumber(phone)
+                        .setTimeout(120L, TimeUnit.SECONDS)
+                        .setActivity(this@VerificationActivity)
+                        .setCallbacks(callbacks)
+                        .setForceResendingToken(resendToken)
+                        .build()
+                    PhoneAuthProvider.verifyPhoneNumber(options)
+                }
             }
-
         }
-
         val options = PhoneAuthOptions.newBuilder(Firebase.auth)
             .setPhoneNumber(phone)
             .setTimeout(120L, TimeUnit.SECONDS)
@@ -80,6 +100,7 @@ class VerificationActivity : AppCompatActivity() {
     }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        binding.progressActivity.visibility = View.GONE
         binding.verifyOtp.visibility = View.GONE
         binding.verifyingOtpEntered.visibility=View.VISIBLE
         Firebase.auth.signInWithCredential(credential)
@@ -102,5 +123,7 @@ class VerificationActivity : AppCompatActivity() {
                 }
             }
     }
+
+
 
 }
