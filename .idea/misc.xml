@@ -3,11 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Project/Connect/app/src/main/res/drawable/from_message_enhancer.xml" value="0.2203125" />
+        <entry key="..\:/Project/Connect/app/src/main/res/drawable/login_card_view_background.xml" value="0.2203125" />
+        <entry key="..\:/Project/Connect/app/src/main/res/drawable/to_message_enhancer.xml" value="0.2203125" />
         <entry key="..\:/Project/Connect/app/src/main/res/layout/activity_chat_log.xml" value="0.20416666666666666" />
         <entry key="..\:/Project/Connect/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Project/Connect/app/src/main/res/layout/activity_new_chat.xml" value="0.18432971014492755" />
         <entry key="..\:/Project/Connect/app/src/main/res/layout/activity_register.xml" value="0.25" />
         <entry key="..\:/Project/Connect/app/src/main/res/layout/activity_verification.xml" value="0.18" />
+        <entry key="..\:/Project/Connect/app/src/main/res/layout/from_message.xml" value="0.25" />
+        <entry key="..\:/Project/Connect/app/src/main/res/layout/to_message.xml" value="0.20416666666666666" />
         <entry key="..\:/Project/Connect/app/src/main/res/layout/user_card_view.xml" value="0.18432971014492755" />
         <entry key="..\:/Project/Connect/app/src/main/res/menu/navbar.xml" value="0.20416666666666666" />
       </map>
