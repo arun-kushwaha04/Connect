@@ -10,13 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Connect">
         <activity
-            android:name=".newChatActivity"
+            android:name=".ChatLogActivity"
             android:exported="true"
             android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".newChatActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".VerificationActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".MainActivity" >
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
