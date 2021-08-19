@@ -6,17 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ChatLogActivity">
 
-    <TextView
+    <EditText
         android:id="@+id/message_text_view"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:background="@color/white"
-        android:hint="Enter Message"
         android:padding="8dp"
         android:layout_margin="8dp"
+        android:hint="Enter message"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/send_message"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
 
     <Button
         android:id="@+id/send_message"

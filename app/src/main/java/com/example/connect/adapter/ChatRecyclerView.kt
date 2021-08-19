@@ -17,10 +17,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ToChatRecylerView(
+class ChatRecyclerView(
     private val message: ArrayList<message>,
     val context: Context
-): RecyclerView.Adapter<ToChatRecylerView.MyViewHolder>(){
+): RecyclerView.Adapter<ChatRecyclerView.MyViewHolder>(){
     class MyViewHolder(view: View):RecyclerView.ViewHolder(view){
         @SuppressLint("SimpleDateFormat")
         private fun convertDate(timeInMilliseconds: Long, dateFormat: String?): String? {
