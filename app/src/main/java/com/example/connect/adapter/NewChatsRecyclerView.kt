@@ -3,7 +3,6 @@ package com.example.connect.adapter
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +15,10 @@ import com.example.connect.R
 import com.example.connect.models.users
 import com.squareup.picasso.Picasso
 
-class newChatsRecyclerView (
+class NewChatsRecyclerView (
     private val users: ArrayList<users>,
     val context: Context
-        ):RecyclerView.Adapter<newChatsRecyclerView.MyViewHolder>(){
+        ):RecyclerView.Adapter<NewChatsRecyclerView.MyViewHolder>(){
             class MyViewHolder(view: View):RecyclerView.ViewHolder(view){
                 private val image: ImageView = itemView.findViewById(R.id.profile_photo_card_view)
                 private val username: TextView = itemView.findViewById(R.id.username_card_view)

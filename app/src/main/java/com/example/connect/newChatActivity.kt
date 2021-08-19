@@ -1,21 +1,18 @@
 package com.example.connect
 
-import android.content.ContentValues.TAG
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.connect.adapter.newChatsRecyclerView
+import com.example.connect.adapter.NewChatsRecyclerView
 import com.example.connect.databinding.ActivityNewChatBinding
 import com.example.connect.models.users
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.ktx.Firebase
 
 class newChatActivity : AppCompatActivity() {
     private lateinit var binding:ActivityNewChatBinding
@@ -40,7 +37,7 @@ class newChatActivity : AppCompatActivity() {
                         userList.add(user!!);
                     }
                     binding.progressBar.visibility = View.GONE
-                    recyclerView.adapter = newChatsRecyclerView(userList,this@newChatActivity)
+                    recyclerView.adapter = NewChatsRecyclerView(userList,this@newChatActivity)
                 }
             }
             override fun onCancelled(error: DatabaseError) {

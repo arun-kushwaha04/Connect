@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class users(
-    private val uid: String?,
+    val uid: String?,
     val profilePhoto: String?,
     val email: String?,
     val username: String?,
