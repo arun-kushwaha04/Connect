@@ -1,7 +1,9 @@
 package com.example.connect.adapter
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,9 +30,6 @@ class ChatRecyclerView(
             val dateFormatter = SimpleDateFormat(dateFormat)
             return dateFormatter.format(dateObject)
         }
-
-
-
         fun bindView(message: message) {
             val messageContent:TextView = itemView.findViewById(R.id.message_content)
             val messageTime:TextView = itemView.findViewById(R.id.message_time)
@@ -40,17 +39,23 @@ class ChatRecyclerView(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if(message[position].fromId == FirebaseAuth.getInstance().uid){
-            1;
-        } else 0
+        return if(message[position].fromId == FirebaseAuth.getInstance().uid) {
+            1
+        } else {
+            0
+        }
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): MyViewHolder {
-        var itemView = LayoutInflater.from(parent.context).inflate(R.layout.to_message,parent,false)
-        if(viewType == 1)itemView = LayoutInflater.from(parent.context).inflate(R.layout.from_message,parent,false)
+        Log.d(TAG,viewType.toString())
+        val itemView:View = if(viewType == 0) {
+            LayoutInflater.from(parent.context).inflate(R.layout.from_message, parent, false)
+        } else {
+            LayoutInflater.from(parent.context).inflate(R.layout.to_message, parent, false)
+        }
         return MyViewHolder(itemView)
     }
 

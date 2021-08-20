@@ -1,7 +1,7 @@
 package com.example.connect.models
 
 class message(
-    private val id: String,
+    val id: String?,
     val content:String,
     val fromId:String,
     val toId: String,

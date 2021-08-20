@@ -5,11 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.connect.adapter.ChatRecyclerView
 import com.example.connect.databinding.ActivityChatLogBinding
 import com.example.connect.models.message
 import com.example.connect.models.users
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 
 class ChatLogActivity : AppCompatActivity() {
@@ -29,12 +33,7 @@ class ChatLogActivity : AppCompatActivity() {
         }
 
         chatsMessage = arrayListOf()
-        val recyclerView = binding.chatsRecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.setHasFixedSize(true)
-
-
-        recyclerView.adapter = ChatRecyclerView(chatsMessage,this)
+        getChatMessage()
 
     }
 
@@ -42,14 +41,48 @@ class ChatLogActivity : AppCompatActivity() {
         val message = binding.messageTextView.editableText.toString()
         if(message.isNotEmpty()){
             val ref = FirebaseDatabase.getInstance().getReference("/message").push()
-            val chatMessage = message(
-                ref.key!!, message,FirebaseAuth.getInstance().uid!!, user.uid!!, System.currentTimeMillis()
-            )
-            ref.setValue(chatMessage)
-                .addOnSuccessListener {
-                    Log.d(TAG, "Message Saved To Database")
-                }
-            binding.messageTextView.setText("")
+            val key = ref.key
+            if(key != null){
+                val chatMessage = message(
+                    key, message,FirebaseAuth.getInstance().uid!!, user.uid!!, System.currentTimeMillis()
+                )
+                ref.setValue(chatMessage)
+                    .addOnSuccessListener {
+                        Log.d(TAG, "Message Saved To Database")
+                    }
+                binding.messageTextView.setText("")
+            }
         }
+    }
+    private fun getChatMessage(){
+        val  recyclerView = binding.chatsRecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
+        val ref=FirebaseDatabase.getInstance().getReference("/message")
+
+        ref.addChildEventListener(object :ChildEventListener{
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val message = snapshot.getValue(message::class.java)
+                chatsMessage.add(message!!)
+                recyclerView.adapter = ChatRecyclerView(chatsMessage,this@ChatLogActivity)
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 }
