@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Adapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.connect.adapter.ChatRecyclerView
@@ -40,7 +41,11 @@ class ChatLogActivity : AppCompatActivity() {
     private fun sendChatMessage(){
         val message = binding.messageTextView.editableText.toString()
         if(message.isNotEmpty()){
-            val ref = FirebaseDatabase.getInstance().getReference("/message").push()
+            val fromId = FirebaseAuth.getInstance().uid
+            val toId = user.uid
+            val ref = FirebaseDatabase.getInstance().getReference("/chat-message/$fromId/$toId").push()
+            val toref = FirebaseDatabase.getInstance().getReference("/chat-message/$toId/$fromId").push()
+
             val key = ref.key
             if(key != null){
                 val chatMessage = message(
@@ -51,6 +56,7 @@ class ChatLogActivity : AppCompatActivity() {
                         Log.d(TAG, "Message Saved To Database")
                     }
                 binding.messageTextView.setText("")
+                toref.setValue(chatMessage)
             }
         }
     }
@@ -58,13 +64,17 @@ class ChatLogActivity : AppCompatActivity() {
         val  recyclerView = binding.chatsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
-        val ref=FirebaseDatabase.getInstance().getReference("/message")
+
+        val fromId = FirebaseAuth.getInstance().uid
+        val toId = user.uid
+        val ref=FirebaseDatabase.getInstance().getReference("/chat-message/$fromId/$toId")
 
         ref.addChildEventListener(object :ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val message = snapshot.getValue(message::class.java)
                 chatsMessage.add(message!!)
                 recyclerView.adapter = ChatRecyclerView(chatsMessage,this@ChatLogActivity)
+                recyclerView.scrollToPosition(chatsMessage.size - 1)
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
