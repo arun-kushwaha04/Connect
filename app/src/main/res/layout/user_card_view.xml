@@ -26,7 +26,7 @@
         android:layout_marginRight="8dp"
         android:text="Username"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/profile_photo_card_view"
         app:layout_constraintTop_toTopOf="@+id/profile_photo_card_view" />
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:text="9479412290"
         android:textColor="@color/purple_700"
-        android:textSize="16sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/username_card_view"
         app:layout_constraintTop_toBottomOf="@+id/username_card_view"
         app:layout_constraintVertical_bias="1.0" />
@@ -50,7 +50,7 @@
         android:layout_marginStart="16dp"
         android:text="arun@gmail.com"
         android:textColor="@color/purple_700"
-        android:textSize="16sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/username_card_view"
         app:layout_constraintStart_toEndOf="@+id/user_number"
         app:layout_constraintTop_toTopOf="@+id/user_number" />

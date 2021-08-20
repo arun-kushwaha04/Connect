@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="300dp"
-            android:padding="16dp"
+            android:padding="8dp"
             android:text="Hi I am Using Connect but i love the whatsapp more than any thing"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
