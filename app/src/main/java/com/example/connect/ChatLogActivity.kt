@@ -4,9 +4,7 @@ import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Adapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.connect.adapter.ChatRecyclerView
 import com.example.connect.databinding.ActivityChatLogBinding
 import com.example.connect.models.message
@@ -44,7 +42,10 @@ class ChatLogActivity : AppCompatActivity() {
             val fromId = FirebaseAuth.getInstance().uid
             val toId = user.uid
             val ref = FirebaseDatabase.getInstance().getReference("/chat-message/$fromId/$toId").push()
-            val toref = FirebaseDatabase.getInstance().getReference("/chat-message/$toId/$fromId").push()
+            val toRef = FirebaseDatabase.getInstance().getReference("/chat-message/$toId/$fromId").push()
+            val latestMessageRef = FirebaseDatabase.getInstance().getReference("/latest-message/$fromId/$toId")
+            val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-message/$toId/$fromId")
+
 
             val key = ref.key
             if(key != null){
@@ -56,7 +57,9 @@ class ChatLogActivity : AppCompatActivity() {
                         Log.d(TAG, "Message Saved To Database")
                     }
                 binding.messageTextView.setText("")
-                toref.setValue(chatMessage)
+                toRef.setValue(chatMessage)
+                latestMessageRef.setValue(chatMessage)
+                latestMessageToRef.setValue(chatMessage)
             }
         }
     }
