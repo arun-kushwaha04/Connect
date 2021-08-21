@@ -50,7 +50,6 @@ class ChatRecyclerView(
         parent: ViewGroup,
         viewType: Int
     ): MyViewHolder {
-        Log.d(TAG,viewType.toString())
         val itemView:View = if(viewType == 0) {
             LayoutInflater.from(parent.context).inflate(R.layout.from_message, parent, false)
         } else {
