@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.connect.adapter.NewChatsRecyclerView
 import com.example.connect.databinding.ActivityNewChatBinding
 import com.example.connect.models.users
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -22,6 +23,7 @@ class newChatActivity : AppCompatActivity() {
         binding = ActivityNewChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val currUid = FirebaseAuth.getInstance().uid
         userList = arrayListOf();
         val recyclerView = binding.recyclerViewUsers
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -34,7 +36,11 @@ class newChatActivity : AppCompatActivity() {
                 if(snapshot.exists()){
                     for(userSnapshot in snapshot.children){
                         val user = userSnapshot.getValue(users::class.java)
-                        userList.add(user!!);
+                        if (user != null) {
+                            if(user.uid != currUid){
+                                userList.add(user);
+                            }
+                        }
                     }
                     binding.progressBar.visibility = View.GONE
                     recyclerView.adapter = NewChatsRecyclerView(userList,this@newChatActivity)

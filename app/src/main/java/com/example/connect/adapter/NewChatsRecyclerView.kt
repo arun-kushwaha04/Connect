@@ -39,7 +39,7 @@ class NewChatsRecyclerView (
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-       holder.bindView(users[position])
+        holder.bindView(users[position])
         holder.cardView.setOnClickListener{
             val userData = users[position]
             val intent = Intent(it.context,ChatLogActivity::class.java)

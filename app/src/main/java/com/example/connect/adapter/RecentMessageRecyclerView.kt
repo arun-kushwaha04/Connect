@@ -1,12 +1,16 @@
 package com.example.connect.adapter
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.example.connect.ChatLogActivity
 import com.example.connect.R
 import com.example.connect.models.message
 import com.example.connect.models.users
@@ -22,6 +26,7 @@ class RecentMessageRecyclerView(
     private val context:Context
 ): RecyclerView.Adapter<RecentMessageRecyclerView.ViewHolder>() {
     class ViewHolder(view: View):RecyclerView.ViewHolder(view){
+        val cardView: ConstraintLayout = itemView.findViewById(R.id.user_card_view)
         val profilePhoto: ImageView = itemView.findViewById(R.id.profile_photo_card_view)
         val userName: TextView = itemView.findViewById(R.id.username_card_view)
         val recentMessageText: TextView = itemView.findViewById(R.id.user_recent_message)
@@ -48,6 +53,13 @@ class RecentMessageRecyclerView(
                 Picasso.get().load(user.profilePhoto).into(holder.profilePhoto)
                 holder.userName.text= user.username
                 holder.recentMessageText.text = recentMessage.content
+
+                holder.cardView.setOnClickListener{
+                    val userData = user
+                    val intent = Intent(it.context, ChatLogActivity::class.java)
+                    intent.putExtra("user",userData)
+                    context.startActivity(intent)
+                }
             }
             override fun onCancelled(error: DatabaseError) {
                 recentMessageList.removeAt(position)
