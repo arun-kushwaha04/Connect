@@ -22,7 +22,7 @@ class NewChatsRecyclerView (
             class MyViewHolder(view: View):RecyclerView.ViewHolder(view){
                 private val image: ImageView = itemView.findViewById(R.id.profile_photo_card_view)
                 private val username: TextView = itemView.findViewById(R.id.username_card_view)
-                private val phone:TextView = itemView.findViewById(R.id.user_number)
+                private val phone:TextView = itemView.findViewById(R.id.user_recent_message)
                 private val email:TextView = itemView.findViewById(R.id.user_email)
                 val cardView:ConstraintLayout = itemView.findViewById(R.id.user_card_view)
                 fun bindView(userData: users) {
