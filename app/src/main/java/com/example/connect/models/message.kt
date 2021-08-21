@@ -2,7 +2,7 @@ package com.example.connect.models
 
 class message(
     val id: String?,
-    val content:String,
+    var content:String,
     val fromId:String,
     val toId: String,
     val timestamp: Long

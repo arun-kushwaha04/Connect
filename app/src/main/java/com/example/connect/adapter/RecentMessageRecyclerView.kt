@@ -18,7 +18,7 @@ class RecentMessageRecyclerView(
     class ViewHolder(view: View):RecyclerView.ViewHolder(view){
         val profilePhoto: ImageView = itemView.findViewById(R.id.profile_photo_card_view)
         val userName: TextView = itemView.findViewById(R.id.username_card_view)
-        val recentMessageText: TextView = itemView.findViewById(R.id.recent_message_recycler_view)
+        val recentMessageText: TextView = itemView.findViewById(R.id.user_recent_message)
 
         fun bindView(recentMessage:message){
 //            Picasso.get().load(recentMessage.)
